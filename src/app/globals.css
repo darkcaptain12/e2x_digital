@@ -18,6 +18,12 @@
   --color-accent: var(--accent);
   --color-muted: var(--muted);
   --color-card: var(--card);
+
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
 }
 
 body {
@@ -25,10 +31,22 @@ body {
   color: var(--foreground);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 @layer base {
   * {
     border-color: var(--muted);
+  }
+}
+
+@layer utilities {
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 8s ease infinite;
+  }
+
+  .glow-hover:hover {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
   }
 }
