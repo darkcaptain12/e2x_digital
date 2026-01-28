@@ -2,10 +2,18 @@
 
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Image from "next/image";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [settings, setSettings] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((data) => setSettings(data));
+  }, []);
 
   const navLinks = [
     { name: "Hizmetler", href: "#services" },
@@ -19,7 +27,24 @@ export default function Navbar() {
         <div className="flex justify-between h-16 items-center">
           <div className="flex-shrink-0 flex items-center">
             <Link href="/" className="text-2xl font-bold text-primary tracking-tighter">
-              E2X<span className="text-foreground">DIJITAL</span>
+              {settings?.site?.logo?.type === "image" ? (
+                <div className="relative w-12 h-12">
+                   <Image
+                    src={settings.site.logo.image}
+                    alt={settings.site.name || "E2X Dijital"}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              ) : (
+                <>
+                  {settings?.site?.logo?.text ? (
+                    settings.site.logo.text
+                  ) : (
+                    <>E2X<span className="text-foreground">DIJITAL</span></>
+                  )}
+                </>
+              )}
             </Link>
           </div>
 

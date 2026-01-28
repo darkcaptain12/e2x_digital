@@ -33,7 +33,19 @@ export default function Home() {
     fetch("/api/settings").then(res => res.json()).then(data => setSettings(data));
   }, []);
 
-  const services = [
+  const serviceIcons: Record<string, any> = {
+    web: <Globe size={24} />,
+    ai: <Cpu size={24} />,
+    automation: <Zap size={24} />,
+    social: <MessageSquare size={24} />,
+    graphic: <Palette size={24} />,
+  };
+
+  const services = settings?.services?.map((s: any) => ({
+    title: s.name,
+    description: s.description,
+    icon: serviceIcons[s.id] || <Zap size={24} />,
+  })) || [
     {
       title: "Web Sitesi Tasarımı",
       description: "Hızlı, mobil uyumlu ve SEO dostu modern web siteleri ile dijital dünyada yerinizi alın.",
@@ -132,9 +144,9 @@ export default function Home() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-8 leading-[0.9] md:leading-[0.85]"
             >
-              E2X Dijital ile <br />
+              {settings?.site?.hero?.title?.split(" ").slice(0, -2).join(" ") || "E2X Dijital ile"} <br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent animate-gradient">
-                Geleceği Kodlayın
+                {settings?.site?.hero?.title?.split(" ").slice(-2).join(" ") || "Geleceği Kodlayın"}
               </span>
             </motion.h1>
 
@@ -144,8 +156,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-xl md:text-2xl text-foreground/70 max-w-3xl mx-auto mb-12 font-medium leading-relaxed"
             >
-              Yapay zeka odaklı yazılım mimarisi ve stratejik dijital pazarlama ile
-              işletmenizi dijital çağın zirvesine taşıyoruz.
+              {settings?.site?.hero?.subtitle || "Yapay zeka odaklı yazılım mimarisi ve stratejik dijital pazarlama ile işletmenizi dijital çağın zirvesine taşıyoruz."}
             </motion.p>
 
             <motion.div
@@ -158,13 +169,13 @@ export default function Home() {
                 href="#analysis"
                 className="group relative bg-primary text-white px-10 py-5 rounded-2xl font-black text-xl transition-all hover:scale-105 shadow-[0_0_30px_-5px_rgba(99,102,241,0.5)] flex items-center gap-3 overflow-hidden"
               >
-                Ücretsiz Keşif Al <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
+                {settings?.site?.hero?.buttonText || "Ücretsiz Keşif Al"} <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="#calculator"
                 className="bg-card border-2 border-muted hover:border-primary/50 text-foreground px-10 py-5 rounded-2xl font-black text-xl transition-all flex items-center gap-2"
               >
-                Fiyat Hesapla
+                {settings?.site?.hero?.calcButtonText || "Fiyat Hesapla"}
               </Link>
             </motion.div>
           </div>
@@ -187,7 +198,7 @@ export default function Home() {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services.map((service, index) => (
+              {services.map((service: any, index: number) => (
                 <ServiceCard
                   key={index}
                   title={service.title}
@@ -251,17 +262,19 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                <h2 className="text-4xl md:text-5xl font-black mb-8 tracking-tight">Neden E2X Dijital?</h2>
+                <h2 className="text-4xl md:text-5xl font-black mb-8 tracking-tight">
+                  {settings?.site?.about?.title || "Neden E2X Dijital?"}
+                </h2>
                 <p className="text-foreground/70 mb-8 text-lg leading-relaxed font-medium">
-                  Geleneksel yöntemleri bir kenara bırakın. E2X Dijital, hızın ve verimliliğin ön planda olduğu yeni nesil bir ekosistem sunar. Sadece kod yazmıyoruz, markanızın geleceğini inşa ediyoruz.
+                  {settings?.site?.about?.description || "Geleneksel yöntemleri bir kenara bırakın. E2X Dijital, hızın ve verimliliğin ön planda olduğu yeni nesil bir ekosistem sunar. Sadece kod yazmıyoruz, markanızın geleceğini inşa ediyoruz."}
                 </p>
                 <ul className="space-y-6 mb-10">
-                  {[
+                  {(settings?.site?.about?.features || [
                     "Özel Geliştirilmiş AI Algoritmaları",
                     "Ultra Hızlı Next.js Mimarisi",
                     "Dönüşüm Odaklı Kullanıcı Deneyimi",
                     "7/24 Teknik Danışmanlık ve Destek"
-                  ].map((item, i) => (
+                  ]).map((item: string, i: number) => (
                     <motion.li
                       key={i}
                       initial={{ opacity: 0, x: 20 }}

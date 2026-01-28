@@ -20,15 +20,24 @@ export default function AdminLayout({
     }
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simple password for demo purposes
-    if (password === "admin123") {
-      setIsAuthenticated(true);
-      localStorage.setItem("admin_auth", password);
-      setError("");
-    } else {
-      setError("Hatalı şifre!");
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+
+      if (res.ok) {
+        setIsAuthenticated(true);
+        localStorage.setItem("admin_auth", password);
+        setError("");
+      } else {
+        setError("Hatalı şifre!");
+      }
+    } catch (err) {
+      setError("Bağlantı hatası!");
     }
   };
 

@@ -1,0 +1,54 @@
+
+> e2x-dijital@1.0.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use by an unknown process, using available port 3001 instead.
+   ▲ Next.js 15.5.10
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.0.2:3001
+
+ ✓ Starting...
+ ✓ Ready in 2.8s
+ ○ Compiling / ...
+ ✓ Compiled / in 7.2s (1522 modules)
+ GET / 200 in 9566ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /api/settings in 2.5s (1527 modules)
+ ✓ Compiled in 1038ms (1534 modules)
+ GET /api/settings 200 in 2655ms
+ GET /grid.svg 404 in 4710ms
+ GET / 200 in 2199ms
+ GET /api/settings 200 in 41ms
+ GET /api/settings 200 in 27ms
+ GET /api/settings 200 in 15ms
+ GET /api/settings 200 in 18ms
+ GET /grid.svg 404 in 90ms
+ ○ Compiling /legal/[slug] ...
+ ✓ Compiled /legal/[slug] in 765ms (1547 modules)
+ GET /legal/privacy 200 in 2349ms
+ GET /api/settings 200 in 46ms
+ GET /api/settings 200 in 19ms
+ GET /api/settings 200 in 25ms
+ ○ Compiling /admin/settings ...
+ ✓ Compiled /admin/settings in 1272ms (1586 modules)
+ GET /admin/settings 200 in 1565ms
+ GET / 200 in 295ms
+ GET /grid.svg 404 in 96ms
+ GET /api/settings 200 in 49ms
+ GET /api/settings 200 in 23ms
+ GET /api/settings 200 in 133ms
+ GET /api/settings 200 in 53ms
+ GET /api/settings 200 in 34ms
+ GET /legal/privacy 200 in 213ms
+ GET /api/settings 200 in 18ms
+ GET /api/settings 200 in 19ms
+ GET /api/settings 200 in 15ms
+   Reload env: .env.local
+ ✓ Compiled in 1189ms (1531 modules)
+ ✓ Compiled in 1491ms (712 modules)
+ ✓ Compiled in 271ms (712 modules)
+ ✓ Compiled in 195ms (712 modules)
+ ✓ Compiled in 200ms (712 modules)
+ ✓ Compiled in 637ms (1531 modules)
+ ✓ Compiled in 599ms (712 modules)
+ ✓ Compiled in 339ms (712 modules)

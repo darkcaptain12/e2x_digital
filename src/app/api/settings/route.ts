@@ -3,7 +3,7 @@ import fs from "fs/promises";
 import path from "path";
 
 const DATA_PATH = path.join(process.cwd(), "data/settings.json");
-const ADMIN_PASSWORD = "admin123";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
 
 function isAuthorized(request: Request) {
   const authHeader = request.headers.get("Authorization");

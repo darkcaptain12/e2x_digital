@@ -25,7 +25,8 @@ export default function WhatsAppButton() {
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
-  if (!settings?.site?.whatsapp) return null;
+  const whatsapp = settings?.site?.contact?.whatsapp;
+  if (!whatsapp) return null;
 
   return (
     <AnimatePresence>
@@ -34,7 +35,7 @@ export default function WhatsAppButton() {
           initial={{ opacity: 0, scale: 0.5, y: 50 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.5, y: 50 }}
-          href={`https://wa.me/${settings.site.whatsapp}`}
+          href={`https://wa.me/${whatsapp}`}
           target="_blank"
           rel="noopener noreferrer"
           className="fixed bottom-8 right-8 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-[0_10px_30px_-5px_rgba(37,211,102,0.5)] hover:scale-110 transition-transform flex items-center justify-center"

@@ -1,10 +1,10 @@
 {
   "services": [
-    { "id": "web", "name": "Web Sitesi", "basePrice": 15000 },
-    { "id": "ai", "name": "Yapay Zeka Entegrasyonu", "basePrice": 25000 },
-    { "id": "automation", "name": "Süreç Otomasyonu", "basePrice": 20000 },
-    { "id": "social", "name": "Sosyal Medya Yönetimi", "basePrice": 10000 },
-    { "id": "graphic", "name": "Grafik Tasarım", "basePrice": 8000 }
+    { "id": "web", "name": "Web Sitesi", "basePrice": 15000, "description": "Hızlı, mobil uyumlu ve SEO dostu modern web siteleri ile dijital dünyada yerinizi alın." },
+    { "id": "ai", "name": "Yapay Zeka Entegrasyonu", "basePrice": 25000, "description": "İş süreçlerinizi akıllı hale getiren özel yapay zeka modelleri ve entegrasyonları." },
+    { "id": "automation", "name": "Süreç Otomasyonu", "basePrice": 20000, "description": "Tekrarlayan işleri otomatiğe bağlayın, zamandan ve maliyetten tasarruf edin." },
+    { "id": "social", "name": "Sosyal Medya Yönetimi", "basePrice": 10000, "description": "Markanızın dijital itibarını profesyonel içerik ve stratejilerle büyüterek yönetiyoruz." },
+    { "id": "graphic", "name": "Grafik Tasarım", "basePrice": 8000, "description": "Markanızın kimliğini yansıtan estetik ve dikkat çekici görsel tasarımlar." }
   ],
   "industries": [
     { "id": "e-commerce", "name": "E-Ticaret", "multiplier": 1.5 },
@@ -17,12 +17,57 @@
     { "id": "tech", "name": "Teknoloji", "multiplier": 1.35 }
   ],
   "site": {
-    "whatsapp": "905000000000",
+    "name": "E2X Dijital",
+    "logo": {
+      "type": "text",
+      "text": "E2X DIJITAL",
+      "image": "/logo.png"
+    },
+    "hero": {
+      "title": "E2X Dijital ile Geleceği Kodlayın",
+      "subtitle": "Yapay zeka odaklı yazılım mimarisi ve stratejik dijital pazarlama ile işletmenizi dijital çağın zirvesine taşıyoruz.",
+      "buttonText": "Ücretsiz Keşif Al",
+      "calcButtonText": "Fiyat Hesapla"
+    },
+    "contact": {
+      "whatsapp": "905000000000",
+      "email": "info@e2xdijital.com",
+      "phone": "+90 500 000 00 00",
+      "address": "İstanbul, Türkiye"
+    },
     "social": {
       "instagram": "https://instagram.com/e2xdijital",
       "twitter": "https://twitter.com/e2xdijital",
       "linkedin": "https://linkedin.com/company/e2xdijital"
     },
-    "heroImage": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80"
+    "heroImage": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80",
+    "about": {
+      "title": "Neden E2X Dijital?",
+      "description": "Geleneksel yöntemleri bir kenara bırakın. E2X Dijital, hızın ve verimliliğin ön planda olduğu yeni nesil bir ekosistem sunar. Sadece kod yazmıyoruz, markanızın geleceğini inşa ediyoruz.",
+      "features": [
+        "Özel Geliştirilmiş AI Algoritmaları",
+        "Ultra Hızlı Next.js Mimarisi",
+        "Dönüşüm Odaklı Kullanıcı Deneyimi",
+        "7/24 Teknik Danışmanlık ve Destek"
+      ]
+    },
+    "ai": {
+      "geminiApiKey": "",
+      "pricingModel": "Sana verilen baz fiyatlar ve sektör çarpanlarını kullanarak, kullanıcının özel isteklerini de analiz ederek profesyonel bir fiyat teklifi sunan bir yapay zekasın."
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Gizlilik Politikası",
+      "content": "E2X Dijital olarak kişisel verilerinizin güvenliği hususuna azami hassasiyet göstermekteyiz. Bu çerçevede, her türlü kişisel verilerinizin 6698 sayılı Kişisel Verilerin Korunması Kanunu'na uygun olarak işlenerek muhafaza edilmesine büyük önem vermekteyiz..."
+    },
+    "terms": {
+      "title": "Kullanım Koşulları",
+      "content": "Bu web sitesini kullanarak, aşağıda belirtilen şartları ve koşulları kabul etmiş sayılırsınız. E2X Dijital, hizmet şartlarını dilediği zaman değiştirme hakkını saklı tutar..."
+    },
+    "kvkk": {
+      "title": "KVKK Aydınlatma Metni",
+      "content": "6698 Sayılı Kişisel Verilerin Korunması Kanunu uyarınca, veri sorumlusu sıfatıyla E2X Dijital tarafından toplanan kişisel verileriniz işbu metinde belirtilen amaçlar doğrultusunda işlenebilecektir..."
+    }
   }
 }

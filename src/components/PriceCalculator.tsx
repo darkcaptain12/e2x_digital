@@ -14,6 +14,8 @@ export default function PriceCalculator() {
   const [specialRequirements, setSpecialRequirements] = useState("");
   const [isCalculating, setIsCalculating] = useState(false);
   const [estimatedPrice, setEstimatedPrice] = useState<number | null>(null);
+  const [explanation, setExplanation] = useState("");
+  const [isAi, setIsAi] = useState(false);
   const [isSent, setIsSent] = useState(false);
 
   useEffect(() => {
@@ -38,24 +40,32 @@ export default function PriceCalculator() {
     );
   };
 
-  const calculatePrice = () => {
+  const calculatePrice = async () => {
     if (selectedServices.length === 0) return;
 
     setIsCalculating(true);
     setEstimatedPrice(null);
+    setExplanation("");
 
-    setTimeout(() => {
-      const industry = settings.industries.find((i: any) => i.id === selectedIndustry);
-      const multiplier = industry?.multiplier || 1.0;
-
-      const baseTotal = selectedServices.reduce((sum, serviceId) => {
-        const service = settings.services.find((s: any) => s.id === serviceId);
-        return sum + (service?.basePrice || 0);
-      }, 0);
-
-      setEstimatedPrice(Math.round(baseTotal * multiplier));
+    try {
+      const res = await fetch("/api/calculate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          services: selectedServices,
+          industryId: selectedIndustry,
+          requirements: specialRequirements
+        }),
+      });
+      const data = await res.json();
+      setEstimatedPrice(data.price);
+      setExplanation(data.explanation || "");
+      setIsAi(data.isAi);
+    } catch (error) {
+      console.error("Calculation error:", error);
+    } finally {
       setIsCalculating(false);
-    }, 1200);
+    }
   };
 
   const handleSendToExpert = async (viaWhatsApp = false) => {
@@ -207,8 +217,9 @@ export default function PriceCalculator() {
                     {estimatedPrice !== null ? (
                       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-4">
                         <div className="text-center p-4 bg-primary/10 rounded-2xl border border-primary/20">
-                          <span className="text-xs font-bold text-primary uppercase tracking-widest">Tahmini Fiyat</span>
+                          <span className="text-xs font-bold text-primary uppercase tracking-widest">Tahmini Fiyat {isAi && "(AI Destekli)"}</span>
                           <div className="text-3xl font-black text-primary mt-1">{estimatedPrice.toLocaleString('tr-TR')} ₺</div>
+                          {explanation && <p className="text-[10px] text-foreground/50 mt-2 italic leading-tight">{explanation}</p>}
                         </div>
                         <div className="flex items-center gap-2 text-[10px] text-amber-500 font-bold bg-amber-500/5 p-3 rounded-lg border border-amber-500/20">
                           <AlertCircle size={14} className="shrink-0" />
