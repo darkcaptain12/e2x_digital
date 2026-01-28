@@ -3,12 +3,20 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, message, estimatedPrice, selectedServices, industry } = body;
+    const {
+      name,
+      email,
+      message,
+      estimatedPrice,
+      selectedServices,
+      industry,
+      specialRequirements
+    } = body;
 
     // Basic validation
-    if (!name || !email || !message) {
+    if (!name || !email) {
       return NextResponse.json(
-        { error: "İsim, e-posta ve mesaj alanları zorunludur." },
+        { error: "İsim ve e-posta alanları zorunludur." },
         { status: 400 }
       );
     }
@@ -17,13 +25,16 @@ export async function POST(request: Request) {
     console.log("--- Yeni İletişim Formu Mesajı ---");
     console.log("Müşteri:", name);
     console.log("E-posta:", email);
-    console.log("Mesaj:", message);
+    if (message) console.log("Mesaj:", message);
 
     if (estimatedPrice) {
       console.log("Teklif Detayları:");
       console.log("- Sektör:", industry);
       console.log("- Seçilen Hizmetler:", selectedServices?.join(", "));
       console.log("- Tahmini Fiyat:", estimatedPrice, "TL");
+      if (specialRequirements) {
+        console.log("- Özel İstekler:", specialRequirements);
+      }
     }
     console.log("---------------------------------");
 
