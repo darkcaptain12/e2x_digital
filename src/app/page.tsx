@@ -12,17 +12,26 @@ import {
   Palette,
   ArrowRight,
   CheckCircle2,
-  Rocket
+  Rocket,
+  Search,
+  Phone,
+  Link as LinkIcon
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function Home() {
+  const [settings, setSettings] = useState<any>(null);
   const [formStatus, setFormStatus] = useState<null | "success" | "error">(null);
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const y2 = useTransform(scrollY, [0, 500], [0, -150]);
+
+  useEffect(() => {
+    fetch("/api/settings").then(res => res.json()).then(data => setSettings(data));
+  }, []);
 
   const services = [
     {
@@ -55,10 +64,16 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
+    const data = {
+      type: "analysis",
+      authorizedPerson: formData.get("authorizedPerson"),
+      company: formData.get("company"),
+      website: formData.get("website"),
+      socialLinks: formData.get("socialLinks"),
+    };
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("/api/leads", {
         method: "POST",
         body: JSON.stringify(data),
         headers: { "Content-Type": "application/json" },
@@ -91,6 +106,14 @@ export default function Home() {
             style={{ y: y2 }}
             className="absolute bottom-[-5%] right-[-5%] w-[40%] h-[40%] bg-secondary/30 rounded-full blur-[120px] opacity-50"
           />
+
+          {settings?.site?.heroImage && (
+            <div
+              className="absolute inset-0 opacity-20 bg-cover bg-center mix-blend-overlay transition-opacity duration-1000"
+              style={{ backgroundImage: `url(${settings.site.heroImage})` }}
+            />
+          )}
+
           <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-20" />
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
@@ -132,11 +155,10 @@ export default function Home() {
               className="flex flex-col sm:flex-row items-center justify-center gap-6"
             >
               <Link
-                href="#contact"
+                href="#analysis"
                 className="group relative bg-primary text-white px-10 py-5 rounded-2xl font-black text-xl transition-all hover:scale-105 shadow-[0_0_30px_-5px_rgba(99,102,241,0.5)] flex items-center gap-3 overflow-hidden"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                Hemen Başlayın <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
+                Ücretsiz Keşif Al <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="#calculator"
@@ -256,97 +278,101 @@ export default function Home() {
                   ))}
                 </ul>
                 <Link
-                  href="#contact"
+                  href="#analysis"
                   className="inline-flex items-center gap-2 border-b-2 border-primary text-primary font-black text-xl hover:text-primary/80 transition-all pb-1"
                 >
-                  Ekibimizle Tanışın <ArrowRight size={20} />
+                  Analiz İsteyin <ArrowRight size={20} />
                 </Link>
               </motion.div>
             </div>
           </div>
         </section>
 
-        {/* Contact Section */}
-        <section id="contact" className="py-32 bg-card/20">
+        {/* Free Analysis Form Section */}
+        <section id="analysis" className="py-32 bg-card/20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="max-w-4xl mx-auto bg-card border border-muted p-10 md:p-16 rounded-[3rem] shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] relative overflow-hidden"
+              className="max-w-4xl mx-auto bg-card border border-muted p-8 md:p-16 rounded-[3rem] shadow-2xl relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl rounded-full" />
-              <div className="absolute bottom-0 left-0 w-32 h-32 bg-secondary/10 blur-3xl rounded-full" />
 
               <div className="text-center mb-12 relative z-10">
-                <h2 className="text-4xl font-black mb-4">Bir Projeniz mi Var?</h2>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-black mb-4 uppercase tracking-widest">
+                  <Search size={16} /> Ücretsiz Analiz
+                </div>
+                <h2 className="text-4xl md:text-5xl font-black mb-4">Dijital Keşif Formu</h2>
                 <p className="text-foreground/60 text-lg font-medium">
-                  Hayallerinizi gerçeğe dönüştürmek için sadece bir mesaj uzağınızdayız.
+                  İşletmenizi analiz edelim, size en uygun büyüme stratejisini sunalım.
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label htmlFor="name" className="block text-sm font-bold uppercase tracking-wider text-foreground/50 ml-1">Adınız Soyadınız</label>
+                    <label className="text-xs font-black uppercase tracking-wider text-foreground/40 ml-2">Yetkili Ad Soyad - Numara</label>
+                    <div className="relative">
+                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-primary" size={20} />
+                      <input
+                        type="text"
+                        name="authorizedPerson"
+                        required
+                        placeholder="Ahmet Yılmaz - 0530..."
+                        className="w-full bg-background border border-muted rounded-2xl pl-12 pr-6 py-4 focus:ring-2 focus:ring-primary/50 outline-none text-lg"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-black uppercase tracking-wider text-foreground/40 ml-2">Firma Adı</label>
                     <input
                       type="text"
-                      id="name"
-                      name="name"
+                      name="company"
                       required
-                      placeholder="Ahmet Yılmaz"
-                      className="w-full bg-background border border-muted rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-lg font-medium"
+                      placeholder="Şirketiniz"
+                      className="w-full bg-background border border-muted rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/50 outline-none text-lg"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="email" className="block text-sm font-bold uppercase tracking-wider text-foreground/50 ml-1">E-posta Adresiniz</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      placeholder="merhaba@sirketiniz.com"
-                      className="w-full bg-background border border-muted rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-lg font-medium"
-                    />
+                    <label className="text-xs font-black uppercase tracking-wider text-foreground/40 ml-2">Web Sitesi (Var ise)</label>
+                    <div className="relative">
+                      <Globe className="absolute left-4 top-1/2 -translate-y-1/2 text-primary" size={20} />
+                      <input
+                        type="text"
+                        name="website"
+                        placeholder="www.siteniz.com"
+                        className="w-full bg-background border border-muted rounded-2xl pl-12 pr-6 py-4 focus:ring-2 focus:ring-primary/50 outline-none text-lg"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-black uppercase tracking-wider text-foreground/40 ml-2">Sosyal Medya Linkleri</label>
+                    <div className="relative">
+                      <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-primary" size={20} />
+                      <input
+                        type="text"
+                        name="socialLinks"
+                        placeholder="Instagram, LinkedIn vb."
+                        className="w-full bg-background border border-muted rounded-2xl pl-12 pr-6 py-4 focus:ring-2 focus:ring-primary/50 outline-none text-lg"
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <label htmlFor="message" className="block text-sm font-bold uppercase tracking-wider text-foreground/50 ml-1">Mesajınız</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={5}
-                    placeholder="Bize projenizden ve hedeflerinizden bahsedin..."
-                    className="w-full bg-background border border-muted rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-lg font-medium"
-                  />
-                </div>
+
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  className="w-full bg-primary hover:bg-primary/90 text-white font-black py-5 rounded-2xl transition-all shadow-2xl shadow-primary/30 text-xl"
+                  className="w-full bg-primary hover:bg-primary/90 text-white font-black py-5 rounded-2xl transition-all shadow-2xl shadow-primary/30 text-xl flex items-center justify-center gap-3 mt-4"
                 >
-                  Mesajı Gönder
+                  Analiz Talebi Gönder <ArrowRight size={24} />
                 </motion.button>
 
                 {formStatus === "success" && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="p-4 bg-green-500/10 border border-green-500/20 rounded-2xl text-green-500 text-center font-bold"
-                  >
-                    Harika! Mesajınızı aldık. Ekibimiz en kısa sürede sizinle iletişime geçecek.
-                  </motion.div>
-                )}
-                {formStatus === "error" && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-500 text-center font-bold"
-                  >
-                    Bir şeyler ters gitti. Lütfen tekrar deneyin veya doğrudan bize e-posta gönderin.
-                  </motion.div>
+                  <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-2xl text-green-500 text-center font-bold">
+                    Talebiniz başarıyla alındı. Uzmanlarımız sizi arayacak.
+                  </div>
                 )}
               </form>
             </motion.div>
@@ -355,6 +381,7 @@ export default function Home() {
       </main>
 
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 }

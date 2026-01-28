@@ -1,44 +1,59 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Instagram, Twitter, Linkedin, Github } from "lucide-react";
 import Link from "next/link";
 
 export default function Footer() {
+  const [settings, setSettings] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((data) => setSettings(data));
+  }, []);
+
+  const socialLinks = settings?.site?.social || {};
+
   return (
-    <footer className="bg-background border-t border-muted py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="text-2xl font-bold text-primary tracking-tighter">
-              E2X<span className="text-foreground">DIJITAL</span>
-            </Link>
-            <p className="mt-4 text-foreground/60 max-w-sm">
-              E2X Dijital, işletmenizin dijital dönüşümünü hızlandıran, AI destekli yazılım ve pazarlama çözümleri sunan bir teknoloji ajansıdır.
-            </p>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">Hizmetler</h3>
-            <ul className="mt-4 space-y-2">
-              <li><Link href="#services" className="text-foreground/60 hover:text-primary">Web Tasarım</Link></li>
-              <li><Link href="#services" className="text-foreground/60 hover:text-primary">Yapay Zeka</Link></li>
-              <li><Link href="#services" className="text-foreground/60 hover:text-primary">Otomasyon</Link></li>
-              <li><Link href="#services" className="text-foreground/60 hover:text-primary">Sosyal Medya</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">İletişim</h3>
-            <ul className="mt-4 space-y-2">
-              <li className="text-foreground/60">info@e2xdijital.com</li>
-              <li className="text-foreground/60">+90 (5XX) XXX XX XX</li>
-              <li className="text-foreground/60">İstanbul, Türkiye</li>
-            </ul>
-          </div>
+    <footer className="bg-black border-t border-muted py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+        <div className="flex items-center gap-2 font-black text-2xl tracking-tighter">
+          E2X<span className="text-primary">DIJITAL</span>
         </div>
-        <div className="mt-12 border-t border-muted pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-foreground/40">
-            &copy; {new Date().getFullYear()} E2X Dijital. Tüm hakları saklıdır.
-          </p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            {/* Social links placeholder */}
-            <span className="text-foreground/40 text-sm">Profesyonel Dijital Çözüm Ortağınız</span>
-          </div>
+
+        <div className="text-foreground/40 text-sm font-medium">
+          © {new Date().getFullYear()} E2X Dijital. Tüm hakları saklıdır.
+        </div>
+
+        <div className="flex gap-4">
+          {socialLinks.instagram && (
+            <a
+              href={socialLinks.instagram}
+              target="_blank"
+              className="w-10 h-10 rounded-xl bg-card border border-muted flex items-center justify-center text-foreground/60 hover:text-primary hover:border-primary/50 transition-all"
+            >
+              <Instagram size={20} />
+            </a>
+          )}
+          {socialLinks.twitter && (
+            <a
+              href={socialLinks.twitter}
+              target="_blank"
+              className="w-10 h-10 rounded-xl bg-card border border-muted flex items-center justify-center text-foreground/60 hover:text-primary hover:border-primary/50 transition-all"
+            >
+              <Twitter size={20} />
+            </a>
+          )}
+          {socialLinks.linkedin && (
+            <a
+              href={socialLinks.linkedin}
+              target="_blank"
+              className="w-10 h-10 rounded-xl bg-card border border-muted flex items-center justify-center text-foreground/60 hover:text-primary hover:border-primary/50 transition-all"
+            >
+              <Linkedin size={20} />
+            </a>
+          )}
         </div>
       </div>
     </footer>
